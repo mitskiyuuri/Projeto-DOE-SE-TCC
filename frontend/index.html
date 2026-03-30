@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Doações</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+ body {
+    background-color: #f7ede2; 
+    padding-top: 90px;
+    }
+#botaoChat{
+position: fixed;
+bottom: 20px;
+right: 20px;
+background: 7fb77e;
+color: white;
+width: 65px;
+height: 65px;
+border-radius: 50%;
+display: none;
+font-size: 28px;
+text-align: center;
+line-height: 65px;
+cursor: pointer;
+box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+}
+
+#contador{
+position:absolute;
+top:-5px;
+right:-5px;
+background:red;
+color:white;
+border-radius:50%;
+font-size:14px;
+width:22px;
+height:22px;
+line-height:22px;
+}
+
+/* CARDS */
+.card img{
+height:200px;
+object-fit:cover;
+}
+
+.card:hover{
+transform:scale(1.03);
+transition:0.2s;
+}
+
+.menu-link {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.menu-link:hover {
+  color: #c0392b;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-light bg-white px-4 shadow-sm fixed-top">
+  <span class="navbar-brand"><img src="images/logo.jpeg" width="70px" height="70px"></span>
+
+  <input class="form-control w-25" placeholder="Buscar...">
+
+<div>
+  <a href="menu.html" class="mx-2 menu-link">Nossa Missão</a>
+  <a href="index.html" class="mx-2 menu-link">Itens Disponíveis</a>
+</div>
+
+  <div>
+    👤 ✉️
+  </div>
+</nav>
+
+<div class="container mt-4">
+
+<h1>Itens para doação</h1>
+
+<input id="pesquisa" class="form-control mb-2" placeholder="Pesquisar item">
+<input id="cidade" class="form-control mb-2" placeholder="Cidade">
+
+<button class="btn btn-success mb-3" onclick="pesquisar()">Buscar</button>
+
+<hr>
+
+<div id="lista"></div>
+
+</div>
+
+<div id="botaoChat" onclick="abrirChat()">
+💬
+<span id="contador"></span>
+</div>
+
+<script>
+
+const usuario = JSON.parse(localStorage.getItem("usuario"))
+
+if(!usuario){
+alert("Você precisa estar logado")
+window.location.href = "login.html"
+}
+
+function montarCards(itens){
+
+const lista = document.getElementById("lista")
+
+let html = '<div class="row">'
+
+itens.forEach(item => {
+
+html += `
+<div class="col-md-4 mb-4">
+
+  <div class="card h-100 shadow-sm">
+
+    <img src="http://localhost:3000/uploads/${item.foto}" class="card-img-top">
+
+    <div class="card-body">
+
+      <h5 class="card-title">${item.titulo}</h5>
+
+      <p class="text-muted">${item.cidade}</p>
+
+      <p class="small">${item.descricao.substring(0,50)}...</p>
+
+      <a href="item.html?id=${item.id_item}" class="btn btn-success w-100">
+        Ver item
+      </a>
+
+    </div>
+
+  </div>
+
+</div>
+`
+
+})
+
+html += '</div>'
+
+lista.innerHTML = html
+
+}
+
+function pesquisar(){
+
+const item = document.getElementById("pesquisa").value
+const cidade = document.getElementById("cidade").value
+
+fetch(`http://localhost:3000/pesquisa?item=${item}&cidade=${cidade}`)
+.then(res => res.json())
+.then(itens => {
+
+montarCards(itens)
+
+})
+
+}
+
+function carregarItens(){
+
+fetch("http://localhost:3000/itens")
+.then(res => res.json())
+.then(itens => {
+
+montarCards(itens)
+
+})
+
+}
+
+function verificarMensagens(){
+
+if(!usuario) return
+
+fetch("http://localhost:3000/verificar-mensagens/"+usuario.id_usuario)
+.then(res=>res.json())
+.then(data=>{
+
+if(data.total > 0){
+document.getElementById("botaoChat").style.display="block"
+document.getElementById("contador").innerText = data.total
+}else{
+document.getElementById("botaoChat").style.display="none"
+}
+
+})
+
+}
+
+function abrirChat(){
+window.location.href="perfil.html#chat"
+}
+
+carregarItens()
+verificarMensagens()
+setInterval(verificarMensagens,5000)
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Minhas Conversas</title>
+</head>
+
+<body>
+
+<h2>Minhas Conversas</h2>
+
+<div id="lista"></div>
+
+<script>
+
+const usuario = JSON.parse(localStorage.getItem("usuario"))
+
+if(!usuario){
+
+alert("Você precisa estar logado")
+window.location.href="login.html"
+
+}
+
+fetch("http://localhost:3000/conversas/"+usuario.id_usuario)
+.then(res=>res.json())
+.then(conversas=>{
+
+let html=""
+
+conversas.forEach(c=>{
+
+html+=`
+
+<div style="border:1px solid black; padding:10px; margin:10px">
+
+<p>Conversa sobre item ${c.id_item}</p>
+
+<a href="chat.html?id_item=${c.id_item}&destinatario=${c.id_destinatario}">
+<button>Abrir chat</button>
+</a>
+
+</div>
+
+`
+
+})
+
+document.getElementById("lista").innerHTML=html
+
+})
+
+</script>
+
+</body>
+
+</html>

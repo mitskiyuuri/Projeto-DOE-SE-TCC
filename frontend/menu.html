@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doe-se</title>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+    background-color: #f7ede2; 
+    padding-top: 90px;
+    }
+
+    /* Banner */
+    .hero {
+      background: #9e2a2b;
+      color: white;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .btn-green {
+      background: #7fb77e;
+      color: black;
+      font-weight: bold;
+    }
+
+    .btn-white {
+      background: white;
+      color: black;
+      font-weight: bold;
+    }
+
+    .hero img {
+      border-radius: 10px;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Como funciona */
+    .step {
+      text-align: center;
+    }
+
+    .step-circle {
+      width: 40px;
+      height: 40px;
+      background: #9e2a2b;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: auto;
+      font-weight: bold;
+    }
+    .menu-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: 0.3s;
+    }
+
+    .menu-link:hover {
+    color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+    
+<!-- NAVBAR -->
+<nav class="navbar navbar-light bg-white px-4 shadow-sm fixed-top">
+  <span class="navbar-brand"><img src="images/logo.jpeg" width="70px" height="70px"></span>
+
+  <input class="form-control w-25" placeholder="Buscar...">
+
+<div>
+  <a href="menu.html" class="mx-2 menu-link">Nossa Missão</a>
+  <a href="index.html" class="mx-2 menu-link">Itens Disponíveis</a>
+</div>
+
+  <div>
+    👤 ✉️
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="container mt-4">
+  <div class="hero">
+
+    <div class="row align-items-center">
+
+      <!-- TEXTO -->
+      <div class="col-md-6">
+        <h1>Doe-se</h1>
+        <p>Doe itens que você não usa mais e transforme a vida de alguém perto de você.</p>
+
+        <button class="btn btn-green me-2">QUERO DOAR</button>
+        <button class="btn btn-white">VER ITENS</button>
+      </div>
+
+      <!-- IMAGENS DENTRO DA FAIXA -->
+      <div class="col-md-6">
+        <div class="row g-2">
+
+          <div class="col-6">
+            <img src="https://picsum.photos/300/200">
+          </div>
+
+          <div class="col-6">
+            <img src="https://picsum.photos/300/200?2">
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- COMO FUNCIONA -->
+<div class="container mt-5">
+  
+  <div class="row align-items-center">
+    <div class="col-md-6" style="margin-top: -150px;">
+      <h2><b>Como Funciona?</b></h2>
+      <p>
+        Doar pode ser mais simples do que você imagina.
+        No Doe-se, você cadastra um item, se conecta com pessoas interessadas
+        e escolhe para quem deseja doar — de forma direta, humana e sem burocracia.
+      </p>
+    </div>
+
+    <div class="col-md-6">
+
+      <div class="row g-3">
+
+        <div class="col-6">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+              <div class="step-circle mb-2">1</div>
+              <h6>Cadastre um item</h6>
+              <p class="small">Publique o que você não usa mais.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+              <div class="step-circle mb-2">2</div>
+              <h6>Pessoas se interessam</h6>
+              <p class="small">Quem precisa entra em contato.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+              <div class="step-circle mb-2">3</div>
+              <h6>Você doa</h6>
+              <p class="small">Combine a entrega e ajude alguém.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body text-center">
+              <div class="step-circle mb-2">4</div>
+              <h6>Faça a diferença</h6>
+              <p class="small">Impacte a vida de alguém.</p>
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<br><br><br><br><br><br><br><br><br>
+</body>
+</html>

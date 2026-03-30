@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Novo Item</title>
+</head>
+
+<body>
+
+<h2>Publicar item</h2>
+
+<form id="formItem">
+
+<input name="titulo" placeholder="Título" required><br><br>
+
+<textarea name="descricao" placeholder="Descrição" required></textarea><br><br>
+
+<input name="cidade" placeholder="Cidade" required><br><br>
+
+<input type="file" name="foto" required><br><br>
+
+<button type="submit">Publicar</button>
+
+</form>
+
+<script>
+
+document.getElementById("formItem").addEventListener("submit", function(e){
+
+e.preventDefault()
+
+const usuario = JSON.parse(localStorage.getItem("usuario"))
+
+if(!usuario){
+alert("Você precisa estar logado")
+window.location.href = "login.html"
+return
+}
+
+const formData = new FormData(this)
+
+formData.append("id_usuario", usuario.id_usuario)
+
+fetch("http://localhost:3000/novo-item",{
+method:"POST",
+body:formData
+})
+.then(res=>res.text())
+.then(data=>{
+alert(data)
+window.location.href = "index.html"
+})
+
+})
+
+</script>
+
+</body>
+</html>

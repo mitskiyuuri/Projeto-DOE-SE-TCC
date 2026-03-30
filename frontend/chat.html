@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chat</title>
+</head>
+
+<body>
+
+<h2>Chat</h2>
+
+<div id="mensagens"></div>
+
+<br>
+
+<input id="texto" placeholder="Digite sua mensagem">
+<button onclick="enviar()">Enviar</button>
+
+<script>
+
+const usuario = JSON.parse(localStorage.getItem("usuario"))
+
+if(!usuario){
+
+alert("Você precisa estar logado")
+window.location.href="login.html"
+
+}
+
+const params = new URLSearchParams(window.location.search)
+
+const id_item = params.get("id_item")
+const destinatario = params.get("destinatario")
+
+function carregarMensagens(){
+
+fetch(`http://localhost:3000/mensagens/${id_item}/${usuario.id_usuario}/${destinatario}`)
+.then(res=>res.json())
+.then(mensagens=>{
+
+let html=""
+
+mensagens.forEach(m=>{
+
+if(m.id_remetente == usuario.id_usuario){
+
+html += `
+<div style="text-align:right; margin:10px">
+<span style="background:#a0e7a0; padding:8px; border-radius:10px">
+Você: ${m.mensagem}
+</span>
+</div>
+`
+
+}else{
+
+html += `
+<div style="text-align:left; margin:10px">
+<span style="background:#e0e0e0; padding:8px; border-radius:10px">
+${m.mensagem}
+</span>
+</div>
+`
+
+}
+
+})
+
+document.getElementById("mensagens").innerHTML = html
+
+})
+
+}
+
+function enviar(){
+
+const texto = document.getElementById("texto").value
+
+fetch("http://localhost:3000/enviar-mensagem",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+id_remetente:usuario.id_usuario,
+id_destinatario:destinatario,
+id_item:id_item,
+mensagem:texto
+
+})
+
+})
+
+.then(res=>res.text())
+.then(()=>{
+
+document.getElementById("texto").value=""
+
+carregarMensagens()
+
+})
+
+}
+
+carregarMensagens()
+
+setInterval(carregarMensagens,2000)
+
+</script>
+
+</body>
+</html>

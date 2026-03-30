@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Perfil</title>
+</head>
+
+<body>
+
+<h1>Meu Perfil</h1>
+
+<div id="dados"></div>
+
+<button onclick="logout()">Sair</button>
+
+<hr>
+
+<button onclick="mostrar('itens')">Itens</button>
+<button onclick="mostrar('chat')">Chat</button>
+
+<hr>
+
+<div id="itens"></div>
+
+<div id="chat" style="display:none">
+
+<h2>Minhas Conversas</h2>
+
+<div id="listaConversas"></div>
+
+</div>
+
+<script>
+
+const usuario = JSON.parse(localStorage.getItem("usuario"))
+
+if(!usuario){
+
+alert("Você precisa estar logado")
+window.location.href="login.html"
+
+}
+
+function logout(){
+
+localStorage.removeItem("usuario")
+window.location.href="login.html"
+
+}
+
+function mostrar(secao){
+
+document.getElementById("itens").style.display="none"
+document.getElementById("chat").style.display="none"
+
+document.getElementById(secao).style.display="block"
+
+}
+
+const id = usuario.id_usuario
+
+// carregar dados do usuário
+fetch("http://localhost:3000/usuario/" + id)
+.then(res => res.json())
+.then(usuario => {
+
+document.getElementById("dados").innerHTML = `
+<h2>${usuario.nome}</h2>
+<p>Cidade: ${usuario.cidade}</p>
+`
+
+})
+
+// carregar itens do usuário
+fetch("http://localhost:3000/itens-usuario/" + id)
+.then(res => res.json())
+.then(itens => {
+
+let html = ""
+
+itens.forEach(item => {
+
+html += `
+<div style="border:1px solid black; margin:10px; padding:10px">
+
+<h3>${item.titulo}</h3>
+
+<img src="http://localhost:3000/uploads/${item.foto}" width="200">
+
+<p>${item.descricao}</p>
+
+</div>
+`
+
+})
+
+document.getElementById("itens").innerHTML = html
+
+})
+
+// carregar conversas
+fetch("http://localhost:3000/conversas/" + id)
+.then(res => res.json())
+.then(conversas => {
+
+let html=""
+
+if(conversas.length === 0){
+
+html = "<p>Você ainda não tem conversas.</p>"
+
+}else{
+
+conversas.forEach(c=>{
+
+let destinatario
+
+if(c.id_remetente == id){
+destinatario = c.id_destinatario
+}else{
+destinatario = c.id_remetente
+}
+
+html+=`
+
+<div style="border:1px solid black; padding:10px; margin:10px">
+
+<p>Conversa sobre item ${c.id_item}</p>
+
+<a href="chat.html?id_item=${c.id_item}&destinatario=${destinatario}">
+<button>Abrir Chat</button>
+</a>
+
+</div>
+
+`
+
+})
+
+}
+
+document.getElementById("listaConversas").innerHTML = html
+
+})
+
+</script>
+
+</body>
+</html>

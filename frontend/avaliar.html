@@ -1,0 +1,53 @@
+<h2>Avaliar doador</h2>
+
+<select id="nota">
+<option value="1">1 estrela</option>
+<option value="2">2 estrelas</option>
+<option value="3">3 estrelas</option>
+<option value="4">4 estrelas</option>
+<option value="5">5 estrelas</option>
+</select>
+
+<br><br>
+
+<textarea id="comentario" placeholder="Comentário"></textarea>
+
+<br><br>
+
+<button onclick="avaliar()">Enviar avaliação</button>
+
+<script>
+const usuario = JSON.parse(localStorage.getItem("usuario"))
+
+if(!usuario){
+
+alert("Você precisa estar logado")
+
+window.location.href = "login.html"
+
+}
+
+function avaliar(){
+
+fetch("http://localhost:3000/avaliar",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+avaliador_id:1,
+avaliado_id:2,
+nota:document.getElementById("nota").value,
+comentario:document.getElementById("comentario").value
+})
+
+})
+.then(res=>res.text())
+.then(msg=>alert(msg))
+
+}
+
+</script>

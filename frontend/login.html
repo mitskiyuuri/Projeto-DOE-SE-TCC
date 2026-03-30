@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
+</head>
+
+<body>
+
+<h2>Login</h2>
+
+<input id="email" placeholder="Email"><br><br>
+<input id="senha" type="password" placeholder="Senha"><br><br>
+
+<button onclick="login()">Entrar</button>
+
+<script>
+
+function login(){
+
+
+const email = document.getElementById("email").value
+const senha = document.getElementById("senha").value
+
+
+fetch("http://localhost:3000/login",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body: JSON.stringify({
+email:email,
+senha:senha
+})
+})
+.then(res=>res.json())
+.then(dados=>{
+
+alert(dados.mensagem)
+
+localStorage.setItem("usuario", JSON.stringify(dados.usuario))
+
+window.location.href="menu.html"
+
+})
+}
+
+</script>
+
+</body>
+</html>

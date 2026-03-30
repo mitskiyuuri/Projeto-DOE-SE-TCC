@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cadastro</title>
+</head>
+
+<body>
+
+<h2>Criar conta</h2>
+
+<input id="nome" placeholder="Nome"><br><br>
+<input id="email" placeholder="Email"><br><br>
+<input id="senha" type="password" placeholder="Senha"><br><br>
+<input id="cidade" placeholder="Cidade"><br><br>
+
+<button onclick="cadastrar()">Cadastrar</button>
+
+<script>
+
+function cadastrar(){
+
+const nome = document.getElementById("nome").value
+const email = document.getElementById("email").value
+const senha = document.getElementById("senha").value
+const cidade = document.getElementById("cidade").value
+
+fetch("http://localhost:3000/cadastro",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body: JSON.stringify({
+nome,
+email,
+senha,
+cidade
+})
+
+})
+.then(res => res.text())
+.then(data => alert(data))
+
+}
+
+</script>
+
+</body>
+</html>

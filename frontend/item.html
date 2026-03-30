@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Item</title>
+</head>
+
+<body>
+
+<div id="item"></div>
+<button onclick="marcarDoado()">Marcar como doado</button>
+
+<button onclick="abrirChat()">Enviar mensagem</button>
+
+<script>
+const usuario = JSON.parse(localStorage.getItem("usuario"))
+
+if(!usuario){
+
+alert("Você precisa estar logado")
+
+window.location.href = "login.html"
+
+}
+
+const params = new URLSearchParams(window.location.search)
+const id = params.get("id")
+
+fetch("http://localhost:3000/item/" + id)
+.then(res => res.json())
+.then(item => {
+
+document.getElementById("item").innerHTML = `
+
+<h2>${item.titulo}</h2>
+
+<img src="http://localhost:3000/uploads/${item.foto}" width="300">
+
+<p>${item.descricao}</p>
+
+<p>Cidade: ${item.cidade}</p>
+
+`
+
+})
+
+function abrirChat(){
+
+window.location.href = "chat.html?item=" + id
+
+
+fetch("http://localhost:3000/item-doado/"+id,{
+method:"PUT"
+})
+.then(res=>res.text())
+.then(msg=>{
+alert(msg)
+})
+
+}
+
+</script>
+
+</body>
+</html>
